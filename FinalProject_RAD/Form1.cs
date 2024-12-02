@@ -13,8 +13,10 @@ namespace FinalProject_RAD
     {
         private BindingList<TaskItem> tasks = new BindingList<TaskItem>();
         private DatabaseManager databaseManager;
-        //private string connectionString = "Data Source=DELLNIRIYA\\SQLEXPRESS; Initial Catalog= ToDoTasks; Integrated Security=True"; //Niriya
         private string connectionString = "Data Source= LAPTOPD\\SQLEXPRESS; Initial Catalog=ToDoTasks; Integrated Security=True"; //Deepanshi
+        //private string connectionString = "Data Source=DELLNIRIYA\\SQLEXPRESS; Initial Catalog= ToDoTasks; Integrated Security=True"; //Niriya
+       // private string connectionString = "Data Source= LAPTOP-87I00F5J\SQLEXPRESS01; Initial Catalog=ToDoTasks; Integrated Security=True"; //Simranjot Kaur
+
         private TextBox txtSearch;
 
         public Form1()
@@ -35,19 +37,19 @@ namespace FinalProject_RAD
             {
                 HeaderText = "Select",
                 Name = "Select",
-                Width = 40
+                Width = 10
             };
             dataGridView1.Columns.Insert(0, checkBoxColumn);
         }
 
         private void CustomizeDataGridView()
         {
-            dataGridView1.Columns[0].Width = 90;
-            dataGridView1.Columns[1].Width = 225;
-            dataGridView1.Columns[2].Width = 140;
-            dataGridView1.Columns[3].Width = 140;
-            dataGridView1.Columns[4].Width = 140;
-            dataGridView1.Columns[5].Width = 160;
+            dataGridView1.Columns[0].Width = 40;
+            dataGridView1.Columns[1].Width = 190;
+            dataGridView1.Columns[2].Width = 100;
+            dataGridView1.Columns[3].Width = 180;
+            dataGridView1.Columns[4].Width = 180;
+            dataGridView1.Columns[5].Width = 100;
 
             // Hide the Id column (assuming the Id column is at index 0)
             dataGridView1.Columns["Id"].Visible = true;
@@ -87,8 +89,6 @@ namespace FinalProject_RAD
             dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Times New Roman", 11F, FontStyle.Bold);
 
-            // Remove grid lines (optional)
-            //dataGridView1.GridColor = Color.FromArgb(51, 50, 100);
             dataGridView1.EnableHeadersVisualStyles = false;
         }
 

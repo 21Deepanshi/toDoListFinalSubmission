@@ -7,7 +7,9 @@ namespace FinalProject_RAD
 {
     public class DatabaseManager
     {
-        private string connectionString = "Data Source= LAPTOPD\\SQLEXPRESS; Initial Catalog= ToDoTasks; Integrated Security = True";
+        private string connectionString = "Data Source= LAPTOPD\\SQLEXPRESS; Initial Catalog= ToDoTasks; Integrated Security = True"; //Deepanshi
+        //private string connectionString = "Data Source=DELLNIRIYA\\SQLEXPRESS; Initial Catalog= ToDoTasks; Integrated Security=True"; //Niriya
+        // private string connectionString = "Data Source= LAPTOP-87I00F5J\SQLEXPRESS01; Initial Catalog=ToDoTasks; Integrated Security=True"; //Simranjot Kaur
 
         // Add a new task to the database
         public void AddTask(TaskItem task)
