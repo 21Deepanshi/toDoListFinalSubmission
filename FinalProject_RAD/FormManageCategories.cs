@@ -15,10 +15,12 @@ namespace FinalProject_RAD
     {
         private ListBox lstCategories; // Declare lstCategories at the class level
         private string connectionString = "Data Source= LAPTOPD\\SQLEXPRESS; Initial Catalog= ToDoTasks; Integrated Security = True";
-        public FormManageCategories()
+        private Form1 mainForm;
+        public FormManageCategories(Form1 form1)
         {
             InitializeComponent();
             SetupForm();
+            mainForm = form1;
         }
 
         private void SetupForm()
@@ -152,36 +154,6 @@ namespace FinalProject_RAD
 
         }
 
-        private void InsertCategoryIntoDatabase(string category)
-        {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                string query = "INSERT INTO CategoryTable (Category) VALUES (@Category)";
-
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Category", category);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
-
-        private void DeleteCategoryFromDatabase(string category)
-        {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                string query = "DELETE FROM CategoryTable WHERE Category = @Category";
-
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Category", category);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
-
         private void LoadCategoriesFromDatabase()
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -200,6 +172,37 @@ namespace FinalProject_RAD
             }
         }
 
+        //add and delete
+        private void AddCategory(string categoryName)
+        {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "INSERT INTO CategoryTable (Category) VALUES (@Category)";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Category", categoryName);
+                    cmd.ExecuteNonQuery();
+                }
+
+                // Refresh the ToolStrip in Form1
+                lstCategories.Items.Add(categoryName);
+                mainForm.RefreshToolStrip();
+        }
+
+        private void DeleteCategory(string categoryName)
+        {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "DELETE FROM CategoryTable WHERE Category = @Category";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Category", categoryName);
+                    cmd.ExecuteNonQuery();
+                }
+
+                // Refresh the ToolStrip in Form1
+                mainForm.RefreshToolStrip();
+        }
         // Event handler for Add Category button
         private void BtnAddCategory_Click(object sender, EventArgs e)
         {
@@ -212,10 +215,7 @@ namespace FinalProject_RAD
             // Check if input is not empty
             if (!string.IsNullOrWhiteSpace(newCategory))
             {
-                InsertCategoryIntoDatabase(newCategory);
-                // Add the new category to the ListBox
-                lstCategories.Items.Add(newCategory);
-                lstCategories.Refresh(); // Force UI refresh
+                AddCategory(newCategory);
             }
             else
             {
@@ -230,10 +230,7 @@ namespace FinalProject_RAD
             if (lstCategories.SelectedItem != null)
             {
                 string categoryToDelete = lstCategories.SelectedItem.ToString();
-
-                // Delete the category from the database
-                DeleteCategoryFromDatabase(categoryToDelete);
-                // Remove the selected item
+                DeleteCategory(categoryToDelete);
                 lstCategories.Items.Remove(lstCategories.SelectedItem);
             }
             else
@@ -243,4 +240,3 @@ namespace FinalProject_RAD
         }
     }
 }
-

@@ -25,6 +25,8 @@ namespace FinalProject_RAD
             InitializeTasks();
             DisplayTasks("All");
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            // LoadCategoriesIntoToolStrip(toolStrip1);
+            RefreshToolStrip();
         }
 
         private void AddCheckBoxColumn()
@@ -235,7 +237,7 @@ namespace FinalProject_RAD
         {
             HighlightLabel(lblManageSetting);
             DisplayTasks("Manage Setting");
-            FormManageCategories manageCategories = new FormManageCategories();
+            FormManageCategories manageCategories = new FormManageCategories(this);
 
             manageCategories.StartPosition = FormStartPosition.CenterScreen;
             manageCategories.Size = new Size(800, 400);
@@ -307,6 +309,96 @@ namespace FinalProject_RAD
                 throw;
             }
         }
+        //toolStrip
+        public void RefreshToolStrip()
+        {
+            LoadCategoriesIntoToolStrip(toolStrip1);
+        }
+
+        private void LoadCategoriesIntoToolStrip(ToolStrip toolStrip)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT Category FROM CategoryTable"; // Ensure the column name matches your database
+                    SqlCommand cmd = new SqlCommand(query, conn);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    toolStrip.Items.Clear(); // Clear existing items
+
+                    while (reader.Read())
+                    {
+                        string categoryName = reader["Category"].ToString();
+
+                        // Create a ToolStripMenuItem for each category
+                        ToolStripMenuItem categoryItem = new ToolStripMenuItem
+                        {
+                            Text = categoryName,
+                            AutoSize = true
+                        };
+
+                        // Optionally, add an event handler for clicks
+                        categoryItem.Click += (sender, e) =>
+                        {
+                            FilterTasksByCategory(categoryName);
+                        };
+
+                        // Add the category item to the ToolStrip
+                        toolStrip.Items.Add(categoryItem);
+                        toolStrip.BackColor = Color.Transparent ;
+                        toolStrip.ForeColor = Color.White;
+                        toolStrip.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                        toolStrip.Padding = new Padding(10);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading categories into ToolStrip: " + ex.Message);
+            }
+        }
+
+        private void FilterTasksByCategory(string categoryName)
+        {
+            BindingList<TaskItem> taskList = new BindingList<TaskItem>();
+            dataGridView1.DataSource = taskList;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT Id, Description, Category, StartDate, EndDate, Status FROM Tasks WHERE Category = @Category";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Category", categoryName);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    taskList.Clear();
+
+                    while (reader.Read())
+                    {
+                        TaskItem task = new TaskItem
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            Description = reader["Description"].ToString(),
+                            Category = reader["Category"].ToString(),
+                            StartDate = Convert.ToDateTime(reader["StartDate"]),
+                            EndDate = Convert.ToDateTime(reader["EndDate"]),
+                            Status = reader["Status"].ToString()
+                        };
+
+                        // Add the task to the BindingList, which automatically updates the DataGridView
+                        taskList.Add(task);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error filtering tasks: " + ex.Message);
+            }
+        }
+
 
         private void RefreshTaskList()
         {
