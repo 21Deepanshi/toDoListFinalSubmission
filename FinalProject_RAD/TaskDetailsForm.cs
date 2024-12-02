@@ -20,9 +20,10 @@ namespace FinalProject_RAD
         private ComboBox cboStatus;
         private Button btnSave;
         private string connectionString = "Data Source= LAPTOPD\\SQLEXPRESS; Initial Catalog= ToDoTasks; Integrated Security = True"; //Deepanshi
-        //Niriya
-        //Simran 
-        
+        //private string connectionString = "Data Source=DELLNIRIYA\\SQLEXPRESS; Initial Catalog= ToDoTasks; Integrated Security=True"; //Niriya
+        // private string connectionString = "Data Source= LAPTOP-87I00F5J\SQLEXPRESS01; Initial Catalog=ToDoTasks; Integrated Security=True"; //Simranjot Kaur
+                                                                                                                                      
+
         public TaskItem Task { get; private set; }
 
 
@@ -37,7 +38,7 @@ namespace FinalProject_RAD
             this.Text = "Add New Task";
             this.Size = new System.Drawing.Size(450, 400);
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.BackColor = Color.FromArgb(2, 14, 53); // Correct background color
+            this.BackColor = Color.FromArgb(2, 14, 53);
 
             // Font for all controls
             Font controlFont = new Font("Arial", 10, FontStyle.Regular);
@@ -50,7 +51,7 @@ namespace FinalProject_RAD
                 Location = new System.Drawing.Point(25, 30),
                 AutoSize = true,
                 Font = headingFont,
-                ForeColor = Color.White // Foreground color set to white
+                ForeColor = Color.White
             };
             this.Controls.Add(lblDescription);
 
@@ -71,7 +72,7 @@ namespace FinalProject_RAD
                 Location = new System.Drawing.Point(30, 80),
                 AutoSize = true,
                 Font = headingFont,
-                ForeColor = Color.White // Foreground color set to white
+                ForeColor = Color.White
             };
             this.Controls.Add(lblCategory);
 
@@ -84,7 +85,6 @@ namespace FinalProject_RAD
                 BackColor = Color.White,
                 FlatStyle = FlatStyle.Flat
             };
-           // cboCategory.Items.AddRange(new[] { "Work", "Personal", "Health", "Education", "Other" });
             this.Controls.Add(cboCategory);
 
             // Label and DateTimePicker for Start Date
@@ -94,7 +94,7 @@ namespace FinalProject_RAD
                 Location = new System.Drawing.Point(30, 130),
                 AutoSize = true,
                 Font = headingFont,
-                ForeColor = Color.White // Foreground color set to white
+                ForeColor = Color.White
             };
             this.Controls.Add(lblStartDate);
 
@@ -116,7 +116,7 @@ namespace FinalProject_RAD
                 Location = new System.Drawing.Point(30, 180),
                 AutoSize = true,
                 Font = headingFont,
-                ForeColor = Color.White // Foreground color set to white
+                ForeColor = Color.White
             };
             this.Controls.Add(lblEndDate);
 
@@ -138,7 +138,7 @@ namespace FinalProject_RAD
                 Location = new System.Drawing.Point(30, 230),
                 AutoSize = true,
                 Font = headingFont,
-                ForeColor = Color.White // Foreground color set to white
+                ForeColor = Color.White
             };
             this.Controls.Add(lblStatus);
 
@@ -162,8 +162,8 @@ namespace FinalProject_RAD
                 Width = 70,
                 Height = 30,
                 Font = controlFont,
-                BackColor = Color.FromArgb(255, 130, 163), // Color for heading applied
-                ForeColor = Color.White, // Button text color set to white
+                BackColor = Color.FromArgb(255, 130, 163),
+                ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat
             };
             btnSave.FlatAppearance.BorderSize = 0;
@@ -178,7 +178,7 @@ namespace FinalProject_RAD
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT Category FROM CategoryTable"; // Assuming Categories is the table storing categories
+                    string query = "SELECT Category FROM CategoryTable";
                     SqlCommand cmd = new SqlCommand(query, conn);
 
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -194,10 +194,10 @@ namespace FinalProject_RAD
             }
         }
         //For update
-        public TaskDetailsForm(TaskItem task) : this() // Calls the default constructor
+        public TaskDetailsForm(TaskItem task) : this()
         {
-            this.Text = "Edit Task"; // Update title for editing
-            btnSave.Text = "Update"; // Change button text
+            this.Text = "Edit Task";
+            btnSave.Text = "Update";
 
             // Populate fields with the existing task data
             txtDescription.Text = task.Description;
@@ -206,7 +206,6 @@ namespace FinalProject_RAD
             dtpEndDate.Value = task.EndDate;
             cboStatus.SelectedItem = task.Status;
 
-            // Store the task being edited
             Task = task;
         }
         private void BtnSave_Click(object sender, EventArgs e)
@@ -247,7 +246,7 @@ namespace FinalProject_RAD
                 };
             }
 
-            DialogResult = DialogResult.OK; // Signal successful save/update
+            DialogResult = DialogResult.OK;
             this.Close();
         }
     }

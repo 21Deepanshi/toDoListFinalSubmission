@@ -13,8 +13,10 @@ namespace FinalProject_RAD
 {
     public partial class FormManageCategories : Form
     {
-        private ListBox lstCategories; // Declare lstCategories at the class level
-        private string connectionString = "Data Source= LAPTOPD\\SQLEXPRESS; Initial Catalog= ToDoTasks; Integrated Security = True";
+        private ListBox lstCategories;
+        private string connectionString = "Data Source= LAPTOPD\\SQLEXPRESS; Initial Catalog= ToDoTasks; Integrated Security = True"; //Deepanshi
+        //private string connectionString = "Data Source=DELLNIRIYA\\SQLEXPRESS; Initial Catalog= ToDoTasks; Integrated Security=True"; //Niriya
+       // private string connectionString = "Data Source= LAPTOP-87I00F5J\SQLEXPRESS01; Initial Catalog=ToDoTasks; Integrated Security=True"; //Simranjot Kaur
         private Form1 mainForm;
         public FormManageCategories(Form1 form1)
         {
@@ -106,9 +108,6 @@ namespace FinalProject_RAD
                 Width = this.ClientSize.Width - 20,  
                 Height = this.ClientSize.Height - 120 
             };
-
-            // Add items to the ListBox
-            //lstCategories.Items.AddRange(new string[] { "All", "Personal", "Shopping", "Health", "Educational" });
 
             // Set the DrawMode to OwnerDrawFixed to enable custom drawing
             lstCategories.DrawMode = DrawMode.OwnerDrawFixed;
@@ -203,7 +202,6 @@ namespace FinalProject_RAD
                 // Refresh the ToolStrip in Form1
                 mainForm.RefreshToolStrip();
         }
-        // Event handler for Add Category button
         private void BtnAddCategory_Click(object sender, EventArgs e)
         {
             // Prompt the user to enter a new category
@@ -223,7 +221,6 @@ namespace FinalProject_RAD
             }
         }
 
-        // Event handler for Delete Category button
         private void BtnDeleteCategory_Click(object sender, EventArgs e)
         {
             // Check if an item is selected
